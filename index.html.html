@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Sweet Valentine 💖</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(45deg, #ff9aa2, #ffb7b2, #ffdac1);
+            font-family: 'Comic Sans MS', cursive;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .container {
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            box-shadow: 0 0 30px rgba(255, 105, 180, 0.3);
+            position: relative;
+            z-index: 1;
+        }
+
+        h1 {
+            color: #ff69b4;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+
+        button {
+            padding: 1rem 2rem;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        #yesBtn {
+            background-color: #ff69b4;
+            color: white;
+        }
+
+        #noBtn {
+            background-color: #ffb7b2;
+            color: #ffffff;
+            position: relative;
+        }
+
+        .hearts-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .heart {
+            position: absolute;
+            animation: float 6s infinite linear;
+            font-size: 1.5rem;
+            opacity: 0;
+            text-shadow: 2px 2px 4px rgba(255, 105, 180, 0.3);
+        }
+
+        @keyframes float {
+            0% { 
+                transform: translateY(100vh) translateX(0);
+                opacity: 0;
+            }
+            30% {
+                opacity: 1;
+                transform: translateY(60vh) translateX(10vw);
+            }
+            70% {
+                opacity: 1;
+                transform: translateY(20vh) translateX(-5vw);
+            }
+            100% { 
+                transform: translateY(-10vh) translateX(15vw);
+                opacity: 0;
+            }
+        }
+
+        .heart:nth-child(2n) {
+            animation-delay: 1s;
+            animation-duration: 7s;
+        }
+        .heart:nth-child(3n) {
+            animation-delay: 2s;
+            animation-duration: 5.5s;
+        }
+        .heart:nth-child(4n) {
+            animation-delay: 0.5s;
+            animation-duration: 6.5s;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        #yesScreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 192, 203, 0.95);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2;
+        }
+
+        .message {
+            font-size: 2rem;
+            color: #ff1493;
+            animation: heartbeat 1.2s infinite;
+        }
+
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            25% { transform: scale(1.1); }
+            40% { transform: scale(1); }
+            60% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        #sadScreen {
+            background: #87ceeb;
+        }
+    </style>
+</head>
+<body>
+    <div class="hearts-container" id="backgroundHearts"></div>
+
+    <div class="container" id="mainScreen">
+        <h1>My Dearest Leah 💕</h1>
+        <p>You make every day feel like a fairy tale 🧚♂️✨<br>
+        Will you be my Valentine and make this story even more magical?</p>
+        <div class="buttons">
+            <button id="yesBtn">YES! 😍</button>
+            <button id="noBtn">Hmm... 🤔</button>
+        </div>
+    </div>
+
+    <div id="yesScreen">
+        <div class="container">
+            <h1>YAY! 🎉💖🎀</h1>
+            <p class="message">You just made my heart do a happy dance! 💃<br>
+            I promise to fill your day with:<br>
+            🤗 Cuddles • 🍫 Chocolate • 💌 Love Notes<br>
+            and endless adoration!<br>
+            You're my favorite everything 🌸</p>
+            <div class="hearts-container" id="explosionHearts"></div>
+        </div>
+    </div>
+
+    <script>
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+        const mainScreen = document.getElementById('mainScreen');
+        const yesScreen = document.getElementById('yesScreen');
+        let noCount = 0;
+
+        function createHearts(containerId, count) {
+            const hearts = ['💖', '💝', '💘', '💗', '💓'];
+            const container = document.getElementById(containerId);
+            container.innerHTML = '';
+            
+            for (let i = 0; i < count; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.fontSize = (Math.random() * 1 + 1.2) + 'rem';
+                heart.style.color = `hsl(${Math.random() * 360}, 70%, 60%)`;
+                heart.style.animationDelay = Math.random() * 2 + 's';
+                heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+                container.appendChild(heart);
+            }
+        }
+
+        // Create background hearts
+        createHearts('backgroundHearts', Math.floor(window.innerWidth / 15));
+
+        yesBtn.addEventListener('click', () => {
+            mainScreen.style.display = 'none';
+            yesScreen.style.display = 'flex';
+            document.body.style.background = '#ffb7b2';
+            createHearts('explosionHearts', 100);
+        });
+
+        noBtn.addEventListener('click', () => {
+            noCount++;
+            if (noCount < 5) {
+                const messages = [
+                    "Are you sureee? 🥺",
+                    "Pretty please? 🙏",
+                    "I'll share my chocolate! 🍫",
+                    "Think again! 💭",
+                    "Last chance! 😢"
+                ];
+                noBtn.textContent = messages[noCount - 1];
+                noBtn.style.transform = `translate(${Math.random() * 100 - 50}px, ${Math.random() * 100 - 50}px)`;
+            } else {
+                document.body.innerHTML = `
+                    <div class="container" id="sadScreen">
+                        <h1>😭💔</h1>
+                        <p>My heart is breaking into tiny pieces...<br>
+                        But I'll keep a spark of hope! 🔥<br>
+                        Refresh if you change your mind? 🥺</p>
+                    </div>
+                `;
+            }
+        });
+
+        // Reset button position on mouseover
+        noBtn.addEventListener('mouseover', () => {
+            if (noCount < 5) {
+                noBtn.style.transform = `translate(${Math.random() * 100 - 50}px, ${Math.random() * 100 - 50}px)`;
+            }
+        });
+    </script>
+</body>
+</html>
